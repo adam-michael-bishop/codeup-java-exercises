@@ -28,5 +28,6 @@ public class Bob {
                     """);
             done = "n".equalsIgnoreCase(input.nextLine());
         } while (!done);
+        input.close();
     }
 }
