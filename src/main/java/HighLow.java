@@ -35,7 +35,6 @@ public class HighLow {
         do {
             currentGuesses = numberOfGuesses;
             System.out.printf("Pick a number between %d and %d: ", minNumber, maxNumber);
-//            System.out.printf("DEV ONLY: %d", superSecretNumber);
             int guessedNumber = validateInteger(minNumber, maxNumber, input);
             while (guessedNumber != superSecretNumber) {
                 currentGuesses--;
@@ -83,7 +82,7 @@ public class HighLow {
         if (currentGuesses == numberOfGuesses) {
             return "Cheater...";
         }
-        return winMessages[rand.nextInt(winMessages.length)];
+        return winMessages[rand.nextInt(winMessages.length)] + "\n(Number found in " + (numberOfGuesses - currentGuesses + 1) + " tries)";
     }
 
     private static String getRandomLoseMessage() {
