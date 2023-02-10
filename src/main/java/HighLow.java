@@ -37,7 +37,7 @@ public class HighLow {
             System.out.printf("Pick a number between %d and %d: ", minNumber, maxNumber);
 //            System.out.printf("DEV ONLY: %d", superSecretNumber);
             int guessedNumber = validateInteger(minNumber, maxNumber, input);
-            while (guessedNumber != superSecretNumber && currentGuesses > 0) {
+            while (guessedNumber != superSecretNumber) {
                 currentGuesses--;
                 if (currentGuesses <= 0) {
                     break;
