@@ -39,7 +39,11 @@ public class ServerNameGenerator {
         ServerNameGenerator mySNG = new ServerNameGenerator();
         do {
             String serverName = mySNG.getRandomString(mySNG.adjectives) + '-' + mySNG.getRandomString(mySNG.nouns);
-            System.out.printf("Your random server name is %s%n", serverName);
+            System.out.printf("""
+                    Your random server name:
+                    %s
+                    
+                    """, serverName);
         } while (input.yesNo("Generate a different name? Y/N"));
         System.out.println("Goodbye.");
     }
