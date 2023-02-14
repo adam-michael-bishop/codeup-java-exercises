@@ -10,7 +10,6 @@ public class Input {
     }
 
     public String getString() {
-        scanner.nextLine();
         return scanner.nextLine();
     }
 
@@ -20,7 +19,6 @@ public class Input {
     }
 
     public boolean yesNo() {
-        scanner.nextLine();
         String answer = getString();
         return answer.equalsIgnoreCase("y") ||
                 answer.equalsIgnoreCase("ye") ||
@@ -49,7 +47,7 @@ public class Input {
     }
 
     public int getInt() {
-        return scanner.nextInt();
+        return Integer.parseInt(getString());
     }
 
     public int getInt(String prompt) {
@@ -72,7 +70,7 @@ public class Input {
     }
 
     public double getDouble() {
-        return scanner.nextDouble();
+        return Double.parseDouble(getString());
     }
 
     public double getDouble(String prompt) {
