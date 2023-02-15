@@ -3,7 +3,7 @@ import util.Input;
 import java.util.Random;
 
 public class ServerNameGenerator {
-    private final String[] adjectives = {
+    private static final String[] adjectives = {
             "chief",
             "lopsided",
             "ethereal",
@@ -16,7 +16,8 @@ public class ServerNameGenerator {
             "workable"
     };
 
-    private final String[] nouns = {"bath",
+    private static final String[] nouns = {
+            "bath",
             "curve",
             "ants",
             "idea",
@@ -28,17 +29,16 @@ public class ServerNameGenerator {
             "desire"
     };
 
-    private final Random rand = new Random();
+    private static final Random rand = new Random();
 
-    private String getRandomString(String[] arrayOfStrings) {
+    private static String getRandomString(String[] arrayOfStrings) {
         return arrayOfStrings[rand.nextInt(arrayOfStrings.length)];
     }
 
     public static void main(String[] args) {
         Input input = new Input();
-        ServerNameGenerator mySNG = new ServerNameGenerator();
         do {
-            String serverName = mySNG.getRandomString(mySNG.adjectives) + '-' + mySNG.getRandomString(mySNG.nouns);
+            String serverName = getRandomString(adjectives) + '-' + getRandomString(nouns);
             System.out.printf("""
                     Your random server name:
                     %s
