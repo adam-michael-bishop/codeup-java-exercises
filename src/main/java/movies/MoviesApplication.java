@@ -14,36 +14,36 @@ public class MoviesApplication {
             """;
     private static Movie[] movies = MoviesArray.findAll();
 
-    public static void main(String[] args) {
-        Input input = new Input();
-        String userInput;
-        String instructions = """
+    private static final String instructions = """
                 Type a command: all | category | add | help | exit""";
+
+    private static final Input input = new Input();
+
+    public static void main(String[] args) {
+        String userInput;
         System.out.println(instructions);
         do {
             userInput = input.getString();
-            readUserInput(input, userInput, instructions);
+            readUserInput(userInput);
 
-        } while (!userInput.trim().equalsIgnoreCase("exit"));
-        System.out.println("Goodbye");
+        } while (!userInput.trim().equals("exit"));
     }
 
-    private static void readUserInput(Input input, String userInput, String instructions) {
-        if (userInput.trim().equalsIgnoreCase("all")) {
-            printMovies();
-        } else if (userInput.trim().equalsIgnoreCase("category")) {
-            promptCategory(input);
-        } else if (userInput.trim().equalsIgnoreCase("help")) {
-            System.out.println(helpMessage);
-        } else if (userInput.trim().equalsIgnoreCase("add")) {
-            promptAddMovie(input);
-        } else {
-            System.out.println("Sorry I didn't catch that.");
-            System.out.println(instructions);
+    private static void readUserInput(String userInput) {
+        switch (userInput) {
+            case "all" -> printMovies();
+            case "category" -> promptCategory();
+            case "help" -> System.out.println(helpMessage);
+            case "add" -> promptAddMovie();
+            case "exit" -> System.out.println("Goodbye");
+            default -> {
+                System.out.println("Sorry I didn't catch that.");
+                System.out.println(instructions);
+            }
         }
     }
 
-    private static void promptAddMovie(Input input) {
+    private static void promptAddMovie() {
         String movieName;
         String movieCategory;
         do {
@@ -62,7 +62,7 @@ public class MoviesApplication {
         movies[movies.length - 1] = movie;
     }
 
-    private static void promptCategory(Input input) {
+    private static void promptCategory() {
         System.out.println("Enter a category. Available categories are:");
         printCategoryList();
         printMovies(input.getString());
@@ -82,7 +82,7 @@ public class MoviesApplication {
         int longestNameLength = getLongestNameLength();
         System.out.printf("Title | Category%n");
         for (Movie movie : movies) {
-            System.out.printf("%7s | %s%n", movie.getName(), movie.getCategory());
+            System.out.printf("%s | %s%n",movie.getName(), movie.getCategory());
         }
         System.out.println("longestNameLength = " + longestNameLength);
     }
