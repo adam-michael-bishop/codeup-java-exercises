@@ -5,10 +5,12 @@ import java.util.List;
 
 public class Student {
     private final String name;
+    private final String username;
     private final ArrayList<Integer> grades;
 
-    public Student(String name) {
+    public Student(String name, String username) {
         this.name = name;
+        this.username = username;
         grades = new ArrayList<>();
     }
 
@@ -33,6 +35,12 @@ public class Student {
             gradeTotal += grade;
         }
         return (double) gradeTotal / grades.size();
+    }
+
+    //accessor
+
+    public String getUsername() {
+        return username;
     }
 
     public ArrayList<Integer> getGrades() {

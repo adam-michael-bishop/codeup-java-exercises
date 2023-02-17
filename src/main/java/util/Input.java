@@ -17,6 +17,10 @@ public class Input {
         System.out.println(prompt);
         return getString();
     }
+    public String getString(String format, String args) {
+        System.out.printf(format, args);
+        return getString();
+    }
 
     public boolean yesNo() {
         String answer = getString();

@@ -5,24 +5,94 @@ import util.Input;
 import java.util.*;
 
 public class GradesApplication {
-    private final static HashMap<String, Student> students = new HashMap<>();
+    private final static HashMap<String, Student> STUDENT_HASH_MAP = new HashMap<>();
+    private final static ArrayList<Student> studentsList = new ArrayList<>();
     private final static Input input = new Input();
-
+    private final static ArrayList<String> commands = new ArrayList<>(List.of(
+            "info", "all grades", "class avg", "csv", "exit"));
+    
     public static void main(String[] args) {
         initStudents();
-
+        String userInput;
         do {
-            String response = validateResponse();
-            printStudentInformation(response);
+            userInput = promptMainMenu();
+            parseMainMenuInput(userInput);
+        } while (!userInput.trim().equalsIgnoreCase(commands.get(commands.size() - 1)));
+    }
+
+    private static void parseMainMenuInput(String userInput) {
+        switch (userInput) {
+            case "info" -> promptGetStudentInfo();
+            case "all grades" -> printAllGrades();
+            case "class avg" -> printClassAverage();
+            case "csv" -> printCSVReport();
+        }
+    }
+
+    private static void printCSVReport() {
+        for (Student student : studentsList) {
+            System.out.println(getStudentCSVLine(student));
+        }
+    }
+
+    private static StringJoiner getStudentCSVLine(Student student) {
+        StringJoiner studentCSVLine = new StringJoiner(",");
+        studentCSVLine.add(student.getName());
+        studentCSVLine.add(student.getUsername());
+        studentCSVLine.add(Double.toString(student.getGradeAverage()));
+        return studentCSVLine;
+    }
+
+    private static void printClassAverage() {
+        System.out.printf("Class Average Grade: %.2f%n", getClassAverageGrade());
+    }
+
+    private static double getClassAverageGrade() {
+        double totalAverage = 0;
+        for (Student student : studentsList) {
+            totalAverage += student.getGradeAverage();
+        }
+        return totalAverage / studentsList.size();
+    }
+
+    private static void printAllGrades() {
+        System.out.println("Here is a list of all student grades:");
+        for (Student student : studentsList) {
+            printStudentName(student);
+            printStudentGrades(student);
+        }
+    }
+
+    private static void promptGetStudentInfo() {
+        do {
+            String githubUsername = validateGithubUsername();
+            printStudentInformation(githubUsername);
         } while (input.yesNo("Get info on another student? Y/N"));
     }
 
-    private static String validateResponse() {
+    private static String promptMainMenu() {
+        String userInput;
+//        ArrayList<String> commandsList = new ArrayList<>(List.of(Commands));
+        System.out.printf("""
+                    Available commands:
+                    %s
+                    """, getStringListByDelimiter(commands, " | "));
+        do {
+            userInput = input.getString();
+            if (commands.contains(userInput)) {
+                return userInput;
+            } else {
+                System.out.println("command not found!");
+            }
+        } while (true);
+    }
+
+    private static String validateGithubUsername() {
         while (true) {
             System.out.printf("%s%n", getStudentUsernamesToString());
-            String response = input.getString("Enter a username to get more info on that student.").trim();
-            if (students.containsKey(response)) {
-                return response;
+            String githubUsername = input.getString("Enter a username to get more info on that student.").trim();
+            if (STUDENT_HASH_MAP.containsKey(githubUsername)) {
+                return githubUsername;
             } else {
                 System.out.println("That is not a valid username!");
             }
@@ -30,7 +100,7 @@ public class GradesApplication {
     }
 
     private static void printStudentInformation(String studentKey) {
-        Student currentStudent = students.get(studentKey);
+        Student currentStudent = STUDENT_HASH_MAP.get(studentKey);
         System.out.printf("GitHub username: %s%n", studentKey);
         printStudentName(currentStudent);
         printStudentGradeAverage(currentStudent);
@@ -38,10 +108,7 @@ public class GradesApplication {
     }
 
     private static void printStudentGrades(Student currentStudent) {
-        System.out.println("Grades:");
-        for (Integer grade : currentStudent.getGrades()) {
-            System.out.println(grade);
-        }
+        System.out.printf("Grades: %s%n", getStringListByDelimiter(currentStudent.getGrades(), ", "));
     }
 
     private static void printStudentGradeAverage(Student currentStudent) {
@@ -53,33 +120,40 @@ public class GradesApplication {
     }
 
     private static StringJoiner getStudentUsernamesToString() {
-        Set<String> keySet = students.keySet();
-        return getListOfStringsByDelimiter(keySet, " | ");
+        Set<String> keySet = STUDENT_HASH_MAP.keySet();
+        return getStringListByDelimiter(keySet, " | ");
     }
 
-    private static StringJoiner getListOfStringsByDelimiter(Collection<String> strings, String delimiter) {
+    private static StringJoiner getStringListByDelimiter(Collection<?> objects, String delimiter) {
         StringJoiner usernames = new StringJoiner(delimiter);
-        for (String string : strings) {
-            usernames.add(string);
+        for (Object object : objects) {
+            if (object instanceof String) {
+                usernames.add((String) object);
+            }
+            if (object instanceof Integer) {
+                usernames.add(Integer.toString((int) object));
+            }
         }
         return usernames;
     }
 
     private static void initStudents() {
-        Student bob = new Student("Bob Smith");
-        Student adam = new Student("Adam Bishop");
-        Student joe = new Student("Joe Mama");
-        Student sue = new Student("Sue Smith");
+        Student bob = new Student("Bob Smith", "bob-smith");
+        Student adam = new Student("Adam Bishop", "adam-bishop");
+        Student joe = new Student("Joe Mama", "joe-mama");
+        Student sue = new Student("Sue Smith", "sue-smith");
+        
+        studentsList.addAll(List.of(bob, adam, joe, sue));
 
         bob.addListOfGrades(List.of(45, 80, 92, 34));
         adam.addListOfGrades(List.of(90, 84, 72, 100));
         joe.addListOfGrades(List.of(92, 33, 60, 87));
         sue.addListOfGrades(List.of(94, 87, 58, 1));
 
-        students.put("bob-smith", bob);
-        students.put("adam-bishop", adam);
-        students.put("joe-mama", joe);
-        students.put("sue-smith", sue);
+        STUDENT_HASH_MAP.put(bob.getUsername(), bob);
+        STUDENT_HASH_MAP.put(adam.getUsername(), adam);
+        STUDENT_HASH_MAP.put(joe.getUsername(), joe);
+        STUDENT_HASH_MAP.put(sue.getUsername(), sue);
     }
 
 }
