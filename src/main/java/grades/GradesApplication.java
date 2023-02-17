@@ -4,6 +4,8 @@ import util.Input;
 
 import java.util.*;
 
+import static util.StringUtils.getStringListByDelimiter;
+
 public class GradesApplication {
     private final static HashMap<String, Student> STUDENT_HASH_MAP = new HashMap<>();
     private final static ArrayList<Student> studentsList = new ArrayList<>();
@@ -124,18 +126,18 @@ public class GradesApplication {
         return getStringListByDelimiter(keySet, " | ");
     }
 
-    private static StringJoiner getStringListByDelimiter(Collection<?> objects, String delimiter) {
-        StringJoiner usernames = new StringJoiner(delimiter);
-        for (Object object : objects) {
-            if (object instanceof String) {
-                usernames.add((String) object);
-            }
-            if (object instanceof Integer) {
-                usernames.add(Integer.toString((int) object));
-            }
-        }
-        return usernames;
-    }
+//    private static StringJoiner getStringListByDelimiter(Collection<?> objects, String delimiter) {
+//        StringJoiner usernames = new StringJoiner(delimiter);
+//        for (Object object : objects) {
+//            if (object instanceof String) {
+//                usernames.add((String) object);
+//            }
+//            if (object instanceof Integer) {
+//                usernames.add(Integer.toString((int) object));
+//            }
+//        }
+//        return usernames;
+//    }
 
     private static void initStudents() {
         Student bob = new Student("Bob Smith", "bob-smith");
