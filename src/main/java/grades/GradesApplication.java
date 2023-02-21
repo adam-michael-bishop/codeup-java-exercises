@@ -74,7 +74,6 @@ public class GradesApplication {
 
     private static String promptMainMenu() {
         String userInput;
-//        ArrayList<String> commandsList = new ArrayList<>(List.of(Commands));
         System.out.printf("""
                     Available commands:
                     %s
@@ -125,19 +124,6 @@ public class GradesApplication {
         Set<String> keySet = STUDENT_HASH_MAP.keySet();
         return getStringListByDelimiter(keySet, " | ");
     }
-
-//    private static StringJoiner getStringListByDelimiter(Collection<?> objects, String delimiter) {
-//        StringJoiner usernames = new StringJoiner(delimiter);
-//        for (Object object : objects) {
-//            if (object instanceof String) {
-//                usernames.add((String) object);
-//            }
-//            if (object instanceof Integer) {
-//                usernames.add(Integer.toString((int) object));
-//            }
-//        }
-//        return usernames;
-//    }
 
     private static void initStudents() {
         Student bob = new Student("Bob Smith", "bob-smith");
