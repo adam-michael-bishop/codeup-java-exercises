@@ -23,20 +23,37 @@ public class GroceryListApp {
 
     public static void main(String[] args) {
         String userInput;
+        ArrayList<GroceryItem> groceryList = new ArrayList<>();
+        do {
+            promptAddGroceryItem(groceryList);
+            printGroceryList(groceryList);
+        } while (true);
+    }
+
+    private static void printGroceryList(ArrayList<GroceryItem> groceryList) {
+
+    }
+
+    private static void promptAddGroceryItem(ArrayList<GroceryItem> groceryList) {
+        do {
+            addGroceryItem(groceryList);
+        } while (input.yesNo("Add another grocery item?"));
+    }
+
+    private static void addGroceryItem(ArrayList<GroceryItem> groceryList) {
+        String userInput;
         String itemCategory;
         String itemName;
         int itemQuantity;
-        do {
-            System.out.printf("""
-                    %s%n""", StringUtils.getStringListByDelimiter(categories, ", "));
-            userInput = input.getString("Enter a category:");
-            itemCategory = validateCategory(userInput);
-            itemName = input.getString("Enter a name");
-            itemQuantity = input.getInt(1, 999, "Enter a the amount (1 - 999)");
+        System.out.printf("""
+                %s%n""", StringUtils.getStringListByDelimiter(categories, ", "));
+        userInput = input.getString("Enter a category:");
+        itemCategory = validateCategory(userInput);
+        itemName = input.getString("Enter a name");
+        itemQuantity = input.getInt(1, 999, "Enter a the amount (1 - 999)");
 
-            GroceryItem newItem = new GroceryItem(itemName, itemCategory, itemQuantity);
-            System.out.println(newItem);
-        } while (!userInput.trim().equalsIgnoreCase("exit"));
+        GroceryItem newItem = new GroceryItem(itemName, itemCategory, itemQuantity);
+        groceryList.add(newItem);
     }
 
     private static String validateCategory(String userInput) {
