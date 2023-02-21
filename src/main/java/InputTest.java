@@ -7,5 +7,11 @@ public class InputTest {
         System.out.println(input.getString("Say something"));
         input.getDouble(0, 1, "Enter a decimal between 0 and 1: ");
         System.out.println(input.yesNo("Confirm? Y/N"));
+
+        int binaryNumber = input.getDecimalIntFromBase(2, "Enter a binary number: ");
+        System.out.println("binaryNumber = " + binaryNumber);
+
+        int hexNumber = input.getDecimalIntFromBase(16, "Enter a hexadecimal number: ");
+        System.out.println("hexNumber = " + hexNumber);
     }
 }

@@ -51,7 +51,12 @@ public class Input {
     }
 
     public int getInt() {
-        return Integer.parseInt(getString());
+        try {
+            return Integer.parseInt(getString());
+        } catch (NumberFormatException e) {
+            System.out.println("Not a valid input! Must be an integer.");
+            return getInt();
+        }
     }
 
     public int getInt(String prompt) {
@@ -74,11 +79,26 @@ public class Input {
     }
 
     public double getDouble() {
-        return Double.parseDouble(getString());
+        try {
+            return Double.parseDouble(getString());
+        } catch (NumberFormatException e) {
+            System.out.println("Not a valid input! Must be an decimal value.");
+            return getDouble();
+        }
     }
 
     public double getDouble(String prompt) {
         System.out.print(prompt);
         return getDouble();
+    }
+
+    public int getDecimalIntFromBase(int radix, String prompt) {
+        try {
+            System.out.print(prompt);
+            return Integer.valueOf(getString(), radix);
+        } catch (NumberFormatException e) {
+            System.out.printf("Not a valid input! Must be an integer of base %d.%n", radix);
+            return getDecimalIntFromBase(radix, prompt);
+        }
     }
 }
